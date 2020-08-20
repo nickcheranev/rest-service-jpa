@@ -1,9 +1,6 @@
 package com.example.restservicejpa.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -11,9 +8,15 @@ import java.io.Serializable;
  * created on 28.07.2020.
  */
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
     @Id
+    @GeneratedValue(generator = "users_seq")
+    @SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
     private String name;
 
     public void setId(Long id) {

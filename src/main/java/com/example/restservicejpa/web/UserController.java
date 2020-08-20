@@ -1,7 +1,6 @@
 package com.example.restservicejpa.web;
 
 import com.example.restservicejpa.domain.User;
-import com.example.restservicejpa.service.ResourceFoundException;
 import com.example.restservicejpa.service.ResourceNotFoundException;
 import com.example.restservicejpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,12 @@ public class UserController {
         return userService.create(user);
     }
 
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public User update(@PathVariable("id") Long id, @RequestBody User user) {
+        return userService.update(id, user);
+    }
+
     @GetMapping(value = "/{id}")
     public User findById(@PathVariable("id") Long id) {
         return userService.findById(id);
@@ -47,7 +52,7 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    @ExceptionHandler({ResourceNotFoundException.class, ResourceFoundException.class})
+    @ExceptionHandler({ResourceNotFoundException.class})
     public void handleResourceNotFoundException(HttpServletResponse response) {
         response.setStatus(HttpStatus.PRECONDITION_FAILED.value());
     }

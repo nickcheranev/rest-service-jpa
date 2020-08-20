@@ -31,11 +31,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(Long id, User user) {
+        Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
-            throw new ResourceFoundException();
+            User updatedUser = optionalUser.get();
+            updatedUser.setName(user.getName());
+            userRepository.save(updatedUser);
+            return updatedUser;
         } else
-            return userRepository.save(user);
+            throw new ResourceNotFoundException();
     }
 
     @Override
